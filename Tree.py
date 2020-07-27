@@ -15,7 +15,6 @@ def split_tree_in_two(column_index, value, dataset):
 			right_branches.append(row)
 	return left_branches, right_branches
 
-
 #helper function to calculate gini impurity
 #we're going to call this function recursively until we have classified everything
 #takes in two parameters, a list containing the leftgroups and rightgroups, and the prediction_column_values
@@ -45,9 +44,6 @@ def find_gini_index(groups_of_branches, prediction_column_values):
         gini += (1.0 - score) * (number_of_columns / number_of_rows)
     return gini
 
-
-
-
 #helper function to loop through a dataset and find the best split
 #takes in one parameter of a dataset
     #set prediction_column_values to be the last column of the dataset
@@ -58,6 +54,7 @@ def find_gini_index(groups_of_branches, prediction_column_values):
             #set the gini coeffiecient to be the result of calling the gini function on the groups of rows and prediction_column_values
             #if the gini coefficient is lower than the result values than override the result values
      #once you've checked every column, return the column_index, the value, and the groups_of_branches for the optimal split in a hashmap
+
 def get_the_best_split(dataset):
 	prediction_column_values = list(set(row[-1] for row in dataset))
 	res_index, res_value, res_gini, res_groups = 999, 999, 999, None
@@ -69,18 +66,17 @@ def get_the_best_split(dataset):
 				res_index, res_value, res_gini, res_groups =column_index, row[column_index], gini, groups
 	return {'index':res_index, 'value':res_value, 'groups':res_groups}
 
-#helper function to connect the data
+#a terminal node value must be a valid final prediction. Because we are pruning both before and after we will sometimes have to set the values of our terminal nodes manually
+#a helper function that counts all of the remaining prediction_column_values and returns the mode
+def eat_group_poop_terminal_node_value(group):
+    possible_terminal_node_values = [row[-1] for row in group]
+    return max(set(possible_terminal_node_values), key=possible_terminal_node_values.count)
 
+#a helper function that either splits the branch recursively or feeds it to the terminal function
+#
 
-
-#class model that's a decision tree
-
-    #constructor
-
-    #predict method
-
-    #fit method
-
+#a helper function that builds a decision tree and returns the root node
+#takes in three parameters, the dataset, the maximum depth, and the minimum number of samples for a branch to split on
 
 
 
