@@ -30,6 +30,7 @@ def split_tree_in_two(column_index, value, dataset):
         #finish adjusting gini coefficient
         #gini += (1.0 - score) * (size /number_of_rows)
     #done looping through all the groups of branches, return gini coefficient
+
 def find_gini_index(groups_of_branches, prediction_column_values):
     number_of_rows = float(sum([len(group) for group in groups_of_branches]))
     gini = 0.0
@@ -73,8 +74,44 @@ def eat_group_poop_terminal_node_value(group):
     return max(set(possible_terminal_node_values), key=possible_terminal_node_values.count)
 
 #a helper function that either splits the branch recursively or feeds it to the terminal function
-#
+#takes in three parameters, a node to split on, a maximum depth, a minimum size, and a current depth
 
+	#if you're missing either a left or a right branch, reset both to their terminal node value and return None
+	#if you're deeper than the max_depth of the tree set left and right to their terminal node value and return None
+
+	#process the left child
+	#if the left node has a size greater than the min_size requirement, set the node's left to be the left's terminal node value
+	#if the left node has a size smaller than the min size requirement,  set the node's left to be the result of calling get_the_best_split on the node
+		#call the split function recursively here. pass it the node's left value, the max_depth, the min_size, and the depth + 1
+
+	#process the right child
+	# if the right node has a size greater than the min_size requirement, set the node's right to be the right's terminal node value
+	# if the right node has a size smaller than the min size requirement,  set the node's right to be the result of calling get_the_best_split on the node
+	# call the split function recursively here. pass it the node's right value, the max_depth, the min_size, and the depth + 1
+
+def split(node, max_depth, min_size, depth):
+	left, right = node['groups']
+	del(node['groups'])
+	# check for a no split
+	if not left or not right:
+		node['left'] = node['right'] = eat_group_poop_terminal_node_value(left + right)
+		return
+	# check for max depth
+	if depth >= max_depth:
+		node['left'], node['right'] = eat_group_poop_terminal_node_value(left), eat_group_poop_terminal_node_value(right)
+		return
+	# process left child
+	if len(left) <= min_size:
+		node['left'] = eat_group_poop_terminal_node_value(left)
+	else:
+		node['left'] = get_the_best_split(left)
+		split(node['left'], max_depth, min_size, depth+1)
+	# process right child
+	if len(right) <= min_size:
+		node['right'] = eat_group_poop_terminal_node_value(right)
+	else:
+		node['right'] = get_the_best_split(right)
+		split(node['right'], max_depth, min_size, depth+1)
 #a helper function that builds a decision tree and returns the root node
 #takes in three parameters, the dataset, the maximum depth, and the minimum number of samples for a branch to split on
 
