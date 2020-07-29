@@ -119,7 +119,22 @@ def build_decision_tree(training_data, maximum_depth, minimum_size):
 	split(root_node, maximum_depth, minimum_size, 1)
 	return root_node
 
+#helper function to predict
+#takes in two parameters, the rootnode of the tree and the item to test
+	#needs to travers the tree recursively until it gets to the end
+	#but it can go left or right at each pass, so we need some nested logic with a base case possible after a left turn or a right turn
 
+def classify(root_node, thing_to_classify):
+	if thing_to_classify[root_node['index']] < root_node['value']:
+		if isinstance(root_node['left'], dict):
+			return classify(root_node['left'], thing_to_classify)
+		else:
+			return root_node['left']
+	else:
+		if isinstance(root_node['right'], dict):
+			return classify(root_node['right'], thing_to_classify)
+		else:
+			return root_node['right']
 
 ########The Jupyter Notebook Starts Here
 
