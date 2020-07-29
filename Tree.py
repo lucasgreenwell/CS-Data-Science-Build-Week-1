@@ -114,7 +114,10 @@ def split(node, max_depth, min_size, depth):
 		split(node['right'], max_depth, min_size, depth+1)
 #a helper function that builds a decision tree and returns the root node
 #takes in three parameters, the dataset, the maximum depth, and the minimum number of samples for a branch to split on
-
+def build_decision_tree(training_data, maximum_depth, minimum_size):
+	root_node = get_the_best_split(training_data)
+	split(root_node, maximum_depth, minimum_size, 1)
+	return root_node
 
 
 
