@@ -9,10 +9,11 @@
 def split_tree_in_two(column_index, value, dataset):
 	left_branches, right_branches = list(), list()
 	for row in dataset:
-		if row[column_index] < value:
-			left_branches.append(row)
-		else:
-			right_branches.append(row)
+		if len(row) > column_index:
+			if row[column_index] < value:
+				left_branches.append(row)
+			else:
+				right_branches.append(row)
 	return left_branches, right_branches
 
 #helper function to calculate gini impurity
@@ -59,8 +60,8 @@ def find_gini_index(groups_of_branches, prediction_column_values):
 def get_the_best_split(dataset):
 	prediction_column_values = list(set(row[-1] for row in dataset))
 	res_index, res_value, res_gini, res_groups = 999, 999, 999, None
-	for column_index in range(len(dataset)):
-		for row in dataset:
+	for row in dataset:
+		for column_index in range(len(row)):
 			groups = split_tree_in_two(column_index, row[column_index], dataset)
 			gini = find_gini_index(groups, prediction_column_values)
 			if gini < res_gini:
