@@ -59,7 +59,8 @@ def find_gini_index(groups_of_branches, prediction_column_values):
 def get_the_best_split(dataset):
 	prediction_column_values = list(set(row[-1] for row in dataset))
 	res_index, res_value, res_gini, res_groups = 999, 999, 999, None
-	for column_index in range(len(dataset[0])-1):
+	#this is hardcoded, needs to be whatever the length of the first row is, not 8
+	for column_index in range(len(8)-1):
 		for row in dataset:
 			groups = split_tree_in_two(column_index, row[column_index], dataset)
 			gini = find_gini_index(groups, prediction_column_values)
